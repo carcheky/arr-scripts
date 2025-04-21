@@ -1,5 +1,5 @@
 #!/bin/bash
-scriptVersion="1.4"
+scriptVersion="2.0"
 scriptName="Video"
 
 #### Import Settings
@@ -11,7 +11,6 @@ log () {
 }
 
 set -e
-set -o pipefail
 
 # auto-clean up log file to reduce space usage
 if [ -f "/config/scripts/video.txt" ]; then
@@ -122,12 +121,25 @@ VideoFileCheck () {
 	fi
 }
 
+DeleteLocalArtwork () {
+	# check for local artwork files files
+	if find "$1" -type f -regex ".*/.*\.\(jpg\|jpeg\|png\)" | read; then
+	    log "Local Artwork found, removing local artwork"
+	    find "$1" -type f -regex ".*/.*\.\(jpg\|jpeg\|png\)" -delete
+		sleep 0.1
+	else
+		log "No local artwork found for removal"
+	fi
+}
+
 ArrWaitForTaskCompletion () {
   alerted=no
   until false
   do
+    log "$count of $fileCount :: STATUS :: Checking ARR App Status"
     taskCount=$(curl -s "$arrUrl/api/v3/command?apikey=${arrApiKey}" | jq -r '.[] | select(.status=="started") | .name' | wc -l)
-	if [ "$taskCount" -ge "1" ]; then
+	arrDownloadTaskCount=$(curl -s "$arrUrl/api/v3/command?apikey=${arrApiKey}" | jq -r '.[] | select(.status=="started") | .name' | grep "ProcessMonitoredDownloads" | wc -l)
+	if [ "$taskCount" -ge "3" ] || [ "$arrDownloadTaskCount" -ge "1" ]; then
 	  if [ "$alerted" == "no" ]; then
 		alerted=yes
 		log "$count of $fileCount :: STATUS :: ARR APP BUSY :: Pausing/waiting for all active Arr app tasks to end..."
@@ -158,19 +170,10 @@ VideoSmaProcess (){
 				if [ ${enableSmaTagging} = true ]; then
 				arrItemId=""
 				arrItemData=""
-				arrUrl=""
-				arrApiKey=""
 				log "$count of $fileCount :: Getting Media ID"
 				if echo $category | grep radarr | read; then
-				    if echo $category | grep radarr4k | read; then
-					  arrUrl="$radarr4kArrUrl"
-					  arrApiKey="$radarr4kArrApiKey"
-					else
-					  arrUrl="$radarrArrUrl"
-					  arrApiKey="$radarrArrApiKey"
-					fi
 					log "$count of $fileCount :: Refreshing Radarr app Queue"
-     				refreshQueue=$(curl -s "$arrUrl/api/v3/command" -X POST -H 'Content-Type: application/json' -H "X-Api-Key: $arrApiKey" --data-raw '{"name":"RefreshMonitoredDownloads"}')
+     					refreshQueue=$(curl -s "$arrUrl/api/v3/command" -X POST -H 'Content-Type: application/json' -H "X-Api-Key: $arrApiKey" --data-raw '{"name":"RefreshMonitoredDownloads"}')
 					ArrWaitForTaskCompletion
 					arrItemId=$(curl -s "$arrUrl/api/v3/queue?page=1&pageSize=50&sortDirection=ascending&sortKey=timeleft&includeUnknownMovieItems=true&apikey=$arrApiKey" | jq -r --arg id "$downloadId" '.records[] | select(.downloadId==$id) | .movieId')
 					arrItemData=$(curl -s "$arrUrl/api/v3/movie/$arrItemId?apikey=$arrApiKey")
@@ -180,13 +183,6 @@ VideoSmaProcess (){
 					onlineData="-tmdb $onlineSourceId"
 				fi
 				if echo $category | grep sonarr | read; then
-				    if echo $category | grep sonarr4k | read; then
-					  arrUrl="$sonarr4kArrUrl"
-					  arrApiKey="$sonarr4kArrApiKey"
-					else
-					  arrUrl="$sonarrArrUrl"
-					  arrApiKey="$sonarrArrApiKey"
-					fi
 					log "$count of $fileCount :: Refreshing Sonarr app Queue"
 					refreshQueue=$(curl -s "$arrUrl/api/v3/command" -X POST -H 'Content-Type: application/json' -H "X-Api-Key: $arrApiKey" --data-raw '{"name":"RefreshMonitoredDownloads"}')
 					ArrWaitForTaskCompletion
@@ -250,9 +246,14 @@ function Main {
 	  arrUrl="$sonarr4kArrUrl"
       arrApiKey="$sonarr4kArrApiKey"
     fi
+	if [ "$category"  == "sonarranime" ]; then
+	  arrUrl="$sonarranimeArrUrl"
+      arrApiKey="$sonarranimeArrApiKey"
+    fi
 
 	Configuration
 	VideoFileCheck "$folderpath"
+	DeleteLocalArtwork "$folderpath"
 	VideoLanguageCheck "$folderpath"
 	VideoFileCheck "$folderpath"
 	if [ ${enableSma} = true ]; then

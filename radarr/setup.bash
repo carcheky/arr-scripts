@@ -50,7 +50,7 @@ fi
 wget "$recyclarr_url" -O "/recyclarr/recyclarr.tar.xz" && \
 tar -xf /recyclarr/recyclarr.tar.xz -C /recyclarr &>/dev/null && \
 chmod 777 /recyclarr/recyclarr
-apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community dotnet8-runtime
+apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/community dotnet9-runtime
 
 mkdir -p /custom-services.d
 echo "Download QueueCleaner service..."
@@ -92,6 +92,10 @@ echo "Done"
 
 echo "Download Extras script..."
 curl https://raw.githubusercontent.com/carcheky/arr-scripts/main/radarr/Extras.bash -o /config/extended/Extras.bash 
+echo "Done"
+
+echo "Download TdarrScan script..."
+curl https://raw.githubusercontent.com/RandomNinjaAtk/arr-scripts/main/radarr/TdarrScan.bash -o /config/extended/TdarrScan.bash 
 echo "Done"
 
 if [ ! -f /config/extended/sma.ini ]; then
