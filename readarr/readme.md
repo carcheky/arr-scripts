@@ -21,7 +21,7 @@ Container: <https://hub.docker.com/r/linuxserver/readarr>
 
 Updating is a bit more cumbersome. To update, do the following:
 
-1. Download/update your local `/config/extended.conf` file with the latest options from: [extended.conf](https://github.com/RandomNinjaAtk/arr-scripts/blob/main/readarr/extended.conf)
+1. Download/update your local `/config/extended.conf` file with the latest options from: [extended.conf](https://github.com/carcheky/arr-scripts/blob/main/readarr/extended.conf)
 1. Restart the container, wait for it to fully load the application.
 1. Restart the container again, for the new scripts to activate.
 
@@ -36,4 +36,4 @@ This configuration does its best to update everything automatically, but with ho
 1. Remove any Arr app customizations manually.
 
 ## Support
-[Information](https://github.com/RandomNinjaAtk/arr-scripts/tree/main?tab=readme-ov-file#support-info)
+[Information](https://github.com/carcheky/arr-scripts/tree/main?tab=readme-ov-file#support-info)

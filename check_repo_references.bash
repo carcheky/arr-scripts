@@ -3,7 +3,7 @@
 # Repository Reference Checker and Updater
 # This script checks for references to the original repository and can update them to the current repository
 
-ORIGINAL_REPO="RandomNinjaAtk/arr-scripts"
+ORIGINAL_REPO="carcheky/arr-scripts"
 CURRENT_REPO="carcheky/arr-scripts"
 
 # Colors for output
