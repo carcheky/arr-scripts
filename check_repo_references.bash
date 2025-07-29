@@ -105,7 +105,10 @@ fix_references() {
             
             # Count actual replacements made
             local new_ref_count=$(grep -c "$ORIGINAL_REPO" "$temp_file" 2>/dev/null || echo "0")
-            local replacements_made=$((ref_count - new_ref_count))
+            local replacements_made=0
+            if [[ "$ref_count" =~ ^[0-9]+$ ]] && [[ "$new_ref_count" =~ ^[0-9]+$ ]]; then
+                replacements_made=$((ref_count - new_ref_count))
+            fi
             
             if [ "$replacements_made" -gt 0 ]; then
                 mv "$temp_file" "$file"
