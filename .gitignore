@@ -1,0 +1,5 @@
+# Repository reference backup directories
+.repo_reference_backup_*
+
+# Temporary files
+*.tmp
