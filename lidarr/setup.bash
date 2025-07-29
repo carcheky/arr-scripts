@@ -1,8 +1,19 @@
 #!/usr/bin/with-contenv bash
-set -euo pipefail
-
+scriptVersion="1.4.4"
 SMA_PATH="/usr/local/sma"
-version="1.3"
+
+if [ -f /config/setup_version.txt ]; then
+  source /config/setup_version.txt
+  if [ "$scriptVersion" == "$setupversion" ]; then
+    if apk --no-cache list | grep installed | grep opus-tools | read; then
+      echo "Setup was previously completed, skipping..."
+      exit
+    fi
+  fi
+fi
+echo "setupversion=$scriptVersion" > /config/setup_version.txt
+
+set -euo pipefail
 
 echo "*** install packages ***" && \
 apk add -U --upgrade --no-cache \
@@ -41,7 +52,8 @@ uv pip install --system --upgrade --no-cache-dir --break-system-packages \
   mutagen \
   r128gain \
   tidal-dl \
-  deemix && \
+  deemix \
+  apprise  && \
 echo "************ setup SMA ************"
 if [ -d "${SMA_PATH}"  ]; then
   rm -rf "${SMA_PATH}"
