@@ -1,5 +1,7 @@
 # arr-scripts
 
+**This repository is a fork of the original [RandomNinjaAtk/arr-scripts](https://github.com/RandomNinjaAtk/arr-scripts). All credit for the original work goes to RandomNinjaAtk.**
+
 Official Home of the scripts that were previously packaged with the "Extended" containers. Designed to be easily implemented/added to [Linuxserver.io](https://www.linuxserver.io/) containers.
 
 ## Usage

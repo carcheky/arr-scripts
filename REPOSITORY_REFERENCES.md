@@ -1,6 +1,8 @@
 # Repository Reference Checker
 
-This script helps identify and fix references to the original `RandomNinjaAtk/arr-scripts` repository and update them to point to this repository (`carcheky/arr-scripts`).
+This script was used to identify and fix references from the original `RandomNinjaAtk/arr-scripts` repository to update them to point to this repository (`carcheky/arr-scripts`). 
+
+**Status: Migration completed** - All references have been successfully updated.
 
 ## Usage
 
@@ -17,7 +19,7 @@ This script helps identify and fix references to the original `RandomNinjaAtk/ar
 
 ## What it does
 
-1. **Scans** all relevant files (.md, .txt, .sh, .bash, .py, .json, .yml, .yaml, .conf) for references to `RandomNinjaAtk/arr-scripts`
+1. **Scanned** all relevant files (.md, .txt, .sh, .bash, .py, .json, .yml, .yaml, .conf) for references to `RandomNinjaAtk/arr-scripts` and updated them to `carcheky/arr-scripts`
 2. **Reports** where these references are found with line numbers
 3. **Can automatically fix** most references while being smart about:
    - Skipping image URLs that point to other repositories (like `unraid-templates`, `docker-lidarr-extended`, `docker-amtd`)
