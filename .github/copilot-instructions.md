@@ -29,7 +29,7 @@ Test critical scripts by validating their syntax and download capability:
 ```bash
 # Validate setup scripts
 bash -n lidarr/setup.bash
-bash -n radarr/setup.bash  
+bash -n radarr/setup.bash
 bash -n sonarr/setup.bash
 bash -n readarr/setup.bash
 bash -n sabnzbd/setup.bash
