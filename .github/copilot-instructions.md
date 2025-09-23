@@ -4,7 +4,7 @@
 
 ## About this Repository
 
-This repository contains bash scripts designed to extend Arr applications (Lidarr, Radarr, Sonarr, Readarr, SABnzbd) within Linuxserver.io containers. It is a fork of RandomNinjaAtk/arr-scripts with all references updated to carcheky/arr-scripts.
+This repository contains bash scripts designed to extend Arr applications (Lidarr, Radarr, Sonarr, Readarr, SABnzbd) within Linuxserver.io containers. It is a fork of RandomNinjaAtk/arr-scripts with all references updated to carcheky/arr-scripts..
 
 ## Working Effectively
 
