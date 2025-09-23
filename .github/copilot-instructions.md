@@ -84,7 +84,7 @@ Since these scripts run inside Docker containers with specific dependencies, ful
 
 **Cannot perform full functional testing in this environment**, but always validate:
 - Script syntax is correct
-- Download URLs are accessible  
+- Download URLs are accessible
 - Repository references are consistent
 - Configuration file formats are valid
 
